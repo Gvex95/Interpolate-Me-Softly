@@ -299,19 +299,19 @@ void imageRotateBilinear(const uchar input[], int xSize, int ySize, uchar output
 			if (new_i < 0 || new_i >= xSize || new_j < 0 || new_j >= ySize)
 				y_new[j * xSize + i] = 0;
 			
-			else if(new_i != round(new_i) || new_j != round(new_j))
+			else if(new_i != floor(new_i) || new_j != floor(new_j))
 			{
-				int round_i = round(new_i);
-				int round_j = round(new_j);
+				int floor_i = floor(new_i);
+				int floor_j = floor(new_j);
 
-				double a = new_i - round_i;
-				double b = new_j - round_j;
+				double a = new_i - floor_i;
+				double b = new_j - floor_j;
 
 				y_new[j * xSize + i] =
-					(1 - a) * (1 - b) * y_old[round_i * xSize + round_j] +
-					(1 - a) * b * y_old[round_i * xSize + round_j] +
-					a * (1 - b) * y_old[round_i * xSize + round_j] +
-					a * b * y_old[round_i * xSize + round_j];
+					(1 - a) * (1 - b) * y_old[floor_i * xSize + floor_j] +
+					(1 - a) * b * y_old[floor_i * xSize + floor_j] +
+					a * (1 - b) * y_old[floor_i * xSize + floor_j] +
+					a * b * y_old[floor_i * xSize + floor_j];
 			}
 			else 
 			{
@@ -335,25 +335,25 @@ void imageRotateBilinear(const uchar input[], int xSize, int ySize, uchar output
 			if (new_i < 0 || new_i >= xSize/2 || new_j < 0 || new_j >= ySize/2)
 				y_new[j * xSize/2 + i] = 0;
 
-			else if (new_i != round(new_i) || new_j != round(new_j))
+			else if (new_i != floor(new_i) || new_j != floor(new_j))
 			{
-				int round_i = round(new_i);
-				int round_j = round(new_j);
+				int floor_i = floor(new_i);
+				int floor_j = floor(new_j);
 
-				double a = new_i - round_i;
-				double b = new_j - round_j;
+				double a = new_i - floor_i;
+				double b = new_j - floor_j;
 
 				u_new[j * xSize/2 + i] =
-					(1 - a) * (1 - b) * u_old[round_i * (xSize/2) + round_j] +
-					(1 - a) * b * u_old[round_i * (xSize/2) + round_j] +
-					a * (1 - b) * u_old[round_i * (xSize/2) + round_j] +
-					a * b * u_old[round_i * (xSize/2) + round_j];
+					(1 - a) * (1 - b) * u_old[floor_i * xSize/2 + floor_j] +
+					(1 - a) * b * u_old[floor_i * xSize/2 + floor_j] +
+					a * (1 - b) * u_old[floor_i * xSize/2 + floor_j] +
+					a * b * u_old[floor_i * xSize/2 + floor_j];
 
 				v_new[j * xSize/2 + i] =
-					(1 - a) * (1 - b) * v_old[round_i * (xSize/2) + round_j] +
-					(1 - a) * b * v_old[round_i * (xSize/2) + round_j] +
-					a * (1 - b) * v_old[round_i * (xSize/2) + round_j] +
-					a * b * v_old[round_i * (xSize/2) + round_j];
+					(1 - a) * (1 - b) * v_old[floor_i * xSize/2 + floor_j] +
+					(1 - a) * b * v_old[floor_i * xSize/2 + floor_j] +
+					a * (1 - b) * v_old[floor_i * xSize/2 + floor_j] +
+					a * b * v_old[floor_i * xSize/2 + floor_j];
 			}
 			else
 			{
