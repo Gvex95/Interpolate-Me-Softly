@@ -291,10 +291,10 @@ void imageRotateBilinear(const uchar input[], int xSize, int ySize, uchar output
 	for (int i = 0; i < xSize; i++) {
 		for (int j = 0; j < ySize; j++) {
 
-			int new_i, new_j;
+			double new_i, new_j;
 
-			new_i = (int)(i * cos(ugao) - j * sin(ugao) - m * cos(ugao) + n * sin(ugao) + m);
-			new_j = (int)(j * cos(ugao) + i * sin(ugao) - m * sin(ugao) - n * cos(ugao) + n);
+			new_i = round(i * cos(ugao) - j * sin(ugao) - m * cos(ugao) + n * sin(ugao) + m);
+			new_j = round(j * cos(ugao) + i * sin(ugao) - m * sin(ugao) - n * cos(ugao) + n);
 			
 			if (new_i < 0 || new_i >= xSize || new_j < 0 || new_j >= ySize)
 				y_new[j * xSize + i] = 0;
@@ -327,10 +327,10 @@ void imageRotateBilinear(const uchar input[], int xSize, int ySize, uchar output
 	for (int i = 0; i < xSize / 2; i++) {
 		for (int j = 0; j < ySize / 2; j++) {
 
-			int new_i, new_j;
+			double new_i, new_j;
 
-			new_i = (int)(i * cos(ugao) - j * sin(ugao) - m/2 * cos(ugao) + n/2 * sin(ugao) + m/2);
-			new_j = (int)(j * cos(ugao) + i * sin(ugao) - m/2 * sin(ugao) - n/2 * cos(ugao) + n/2);
+			new_i = round(i * cos(ugao) - j * sin(ugao) - m/2 * cos(ugao) + n/2 * sin(ugao) + m/2);
+			new_j = round(j * cos(ugao) + i * sin(ugao) - m/2 * sin(ugao) - n/2 * cos(ugao) + n/2);
 
 			if (new_i < 0 || new_i >= xSize/2 || new_j < 0 || new_j >= ySize/2)
 				y_new[j * xSize/2 + i] = 0;
