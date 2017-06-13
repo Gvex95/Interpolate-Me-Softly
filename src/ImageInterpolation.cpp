@@ -2,7 +2,9 @@
 #include "ColorSpaces.h"
 #include <math.h>
 #include "ImageFilter.h"
+#include <iostream>
 
+using namespace std;
 
 void sampleAndHold(const uchar input[], int xSize, int ySize, uchar output[], int newXSize, int newYSize)
 {
@@ -312,10 +314,13 @@ void imageRotateBilinear(const uchar input[], int xSize, int ySize, uchar output
 					(1 - a) * b * y_old[(floor_j + 1) * xSize + floor_i] +
 					a * (1 - b) * y_old[floor_j * xSize + (floor_i + 1)] +
 					a * b * y_old[(floor_j + 1) * xSize + (floor_i + 1)];
+				
+
 			}
 			else 
 			{
 				y_new[j*xSize + i] = y_old[int(new_j*xSize + new_i)];
+				
 			}
 		}
 	}
@@ -329,8 +334,8 @@ void imageRotateBilinear(const uchar input[], int xSize, int ySize, uchar output
 
 			double new_i, new_j;
 
-			new_i = round(i * cos(ugao) - j * sin(ugao) - m/2 * cos(ugao) + n/2 * sin(ugao) + m/2);
-			new_j = round(j * cos(ugao) + i * sin(ugao) - m/2 * sin(ugao) - n/2 * cos(ugao) + n/2);
+			new_i = (i * cos(ugao) - j * sin(ugao) - m/2 * cos(ugao) + n/2 * sin(ugao) + m/2);
+			new_j = (j * cos(ugao) + i * sin(ugao) - m/2 * sin(ugao) - n/2 * cos(ugao) + n/2);
 
 			if (new_i < 0 || new_i >= xSize / 2 || new_j < 0 || new_j >= ySize / 2)
 			{
