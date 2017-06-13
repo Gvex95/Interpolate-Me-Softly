@@ -48,7 +48,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;Qt5PrintSupportd.lib;c:\Qt\5.8\msvc2015_64\lib\Qt5Chartsd.lib;c:\Qt\5.8\msvc2015_64\lib\Qt5DataVisualizationd.lib;c:\Qt\5.8\msvc2015_64\lib\Qt5Multimediad.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;Qt5PrintSupportd.lib;c:\Qt\5.9\msvc2015_64\lib\Qt5Chartsd.lib;c:\Qt\5.9\msvc2015_64\lib\Qt5DataVisualizationd.lib;c:\Qt\5.9\msvc2015_64\lib\Qt5Multimediad.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

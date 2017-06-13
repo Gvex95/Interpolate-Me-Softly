@@ -4,7 +4,6 @@
 #include "ImageFilter.h"
 #include <iostream>
 
-using namespace std;
 
 void sampleAndHold(const uchar input[], int xSize, int ySize, uchar output[], int newXSize, int newYSize)
 {
@@ -29,23 +28,23 @@ void sampleAndHold(const uchar input[], int xSize, int ySize, uchar output[], in
 	for (int i = 0; i < newXSize; i++) {
 		for (int j = 0; j < newYSize; j++) {
 			
-			int new_i, new_j;
+			int p, q;
 
 			//ako sam ispao iz slike
-			new_i = (i - 1) / s_x;
-			new_j = (j - 1) / s_y;
+			p = (i - 1) / s_x;
+			q = (j - 1) / s_y;
 			
 			//nadji nove vrednosti, po formuli sa pdf-a, ako nisa izasao iz granica
-			if (new_i < xSize - 1) {
-				new_i += 1;
+			if (p < xSize - 1) {
+				p += 1;
 			}
-			if (new_j < ySize - 1) {
-				new_j += 1;
+			if (q < ySize - 1) {
+				q += 1;
 			}
 			
 			
 
-			y_new[j * newXSize + i] = y_old[new_j * xSize + new_i];
+			y_new[j * newXSize + i] = y_old[q * xSize + p];
 
 		}
 	}
@@ -53,23 +52,23 @@ void sampleAndHold(const uchar input[], int xSize, int ySize, uchar output[], in
 	for (int i = 0; i < newXSize/2; i++) {
 		for (int j = 0; j < newYSize/2; j++) {
 
-			int new_i, new_j;
+			int p, q;
 
 			//ako sam ispao iz slike
-			new_i = (i - 1) / s_x;
-			new_j = (j - 1) / s_y;
+			p = (i - 1) / s_x;
+			q = (j - 1) / s_y;
 			
 			
 			//nadji nove vrednosti, po formuli sa pdf-a, ako nisa izasao iz granica
-			if (new_i < xSize/2 - 1) {
-				new_i += 1;
+			if (p < xSize/2 - 1) {
+				p += 1;
 			}
-			if (new_j < ySize/2 - 1) {
-				new_j += 1;
+			if (q < ySize/2 - 1) {
+				q += 1;
 			}
 
-			u_new[j * newXSize/2 + i] = u_old[new_j * xSize/2 + new_i];
-			v_new[j * newXSize/2 + i] = v_old[new_j * xSize/2 + new_i];
+			u_new[j * newXSize/2 + i] = u_old[q * xSize/2 + p];
+			v_new[j * newXSize/2 + i] = v_old[q * xSize/2 + p];
 
 
 		}
@@ -113,35 +112,36 @@ void bilinearInterpolate(const uchar input[], int xSize, int ySize, uchar output
 	for (int i = 0; i < newXSize; i++) {
 		for (int j = 0; j < newYSize; j++) {
 
-			int new_i, new_j;
-			int new_new_i, new_new_j;
+			//m je po y n je po x
+			int m, n;
+			int m_prim, n_prim;
 
 			
 			double a = (i / s_x) - floor(i / s_x);
 			double b = (j / s_y) - floor(j / s_y);
 			
 			//ako sam ispao iz slike
-			new_i = i / s_x;
-			new_j = j / s_y;
+			n = i / s_x;
+			m = j / s_y;
 
-			new_new_i = new_i;
-			new_new_j = new_j;
+			n_prim = n;
+			m_prim = m;
 
 			//nadji nove vrednosti, po formuli sa pdf-a, ako nisa izasao iz granica
-			if (new_i < xSize - 1) {
-				new_new_i = new_i + 1;
+			if (n < xSize - 1) {
+				n_prim = n + 1;
 			}
-			if (new_j < ySize - 1) {
-				new_new_j = new_j + 1;
+			if (m < ySize - 1) {
+				m_prim = m + 1;
 			}
 
 
 
 			y_new[j * newXSize + i] = 
-				(1 - a) * (1 - b) * y_old[new_j * xSize + new_i] +
-				(1 - a) * b * y_old[new_new_j * xSize + new_i] +
-				a * (1 - b) * y_old[new_j * xSize + new_new_i] +
-				a * b * y_old[new_new_j * xSize + new_new_i];
+				(1 - a) * (1 - b) * y_old[m * xSize + n] +
+				(1 - a) * b * y_old[m_prim * xSize + n] +
+				a * (1 - b) * y_old[m * xSize + n_prim] +
+				a * b * y_old[m_prim * xSize + n_prim];
 
 
 		}
@@ -150,39 +150,42 @@ void bilinearInterpolate(const uchar input[], int xSize, int ySize, uchar output
 	for (int i = 0; i < newXSize/2; i++) {
 		for (int j = 0; j < newYSize/2; j++) {
 
-			int new_i, new_j;
-			int new_new_i, new_new_j;
+			//m je po y n je po x
+			int m, n;
+			int m_prim, n_prim;
+
 
 			double a = (i / s_x) - floor(i / s_x);
 			double b = (j / s_y) - floor(j / s_y);
-			
-			//ako sam ispao iz slike
-			new_i = i / s_x;
-			new_j = j / s_y;
 
-			new_new_i = new_i;
-			new_new_j = new_j;
+			//ako sam ispao iz slike
+			n = i / s_x;
+			m = j / s_y;
+
+			n_prim = n;
+			m_prim = m;
 
 			//nadji nove vrednosti, po formuli sa pdf-a, ako nisa izasao iz granica
-			if (new_i < xSize/2 - 1) {
-				new_new_i = new_i + 1;
+			if (n < xSize/2 - 1) {
+				n_prim = n + 1;
 			}
-			if (new_j < ySize/2 - 1) {
-				new_new_j = new_j + 1;
+			if (m < ySize/2 - 1) {
+				m_prim = m + 1;
 			}
 
 
-			u_new[j * newXSize/2 + i] = 
-				(1 - a) * (1 - b) * u_old[new_j * xSize/2 + new_i] +
-				(1 - a) * b * u_old[new_new_j * xSize/2 + new_i] +
-				a * (1 - b) * u_old[new_j * xSize/2 + new_new_i] +
-				a * b * u_old[new_new_j * xSize/2 + new_new_i];
 
-			v_new[j * newXSize/2 + i] = 
-				(1 - a) * (1 - b) * v_old[new_j * xSize/2 + new_i] +
-				(1 - a) * b * v_old[new_new_j * xSize/2 + new_i] +
-				a * (1 - b) * v_old[new_j * xSize/2 + new_new_i] +
-				a * b * v_old[new_new_j * xSize/2 + new_new_i];
+			u_new[j * newXSize/2 + i] =
+				(1 - a) * (1 - b) * u_old[m * xSize/2 + n] +
+				(1 - a) * b * u_old[m_prim * xSize/2 + n] +
+				a * (1 - b) * u_old[m * xSize/2 + n_prim] +
+				a * b * u_old[m_prim * xSize/2 + n_prim];
+
+			v_new[j * newXSize/2 + i] =
+				(1 - a) * (1 - b) * v_old[m * xSize/2 + n] +
+				(1 - a) * b * v_old[m_prim * xSize/2 + n] +
+				a * (1 - b) * v_old[m * xSize/2 + n_prim] +
+				a * b * v_old[m_prim * xSize/2 + n_prim];
 			
 
 		}
@@ -274,7 +277,7 @@ void imageRotate(const uchar input[], int xSize, int ySize, uchar output[], int 
 
 }
 
-void imageRotateBilinear(const uchar input[], int xSize, int ySize, uchar output[], int m, int n, double angle)
+void imageRotateBilinear(const uchar input[], int xSize, int ySize, uchar output[], int m_rot, int n_rot, double angle)
 {
 	/* TO DO */
 	uchar* y_old = new uchar[xSize*ySize]();
@@ -288,40 +291,46 @@ void imageRotateBilinear(const uchar input[], int xSize, int ySize, uchar output
 	// konverzija
 	RGBtoYUV420(input, xSize, ySize, y_old, u_old, v_old);
 
-	double ugao = 3.14 * angle / 180;
+	double ugao = 3.14159265359 * angle / 180;
 
 	for (int i = 0; i < xSize; i++) {
 		for (int j = 0; j < ySize; j++) {
 
-			double new_i, new_j;
+			int n;
+			int m;
+			int n1;
+			int m1;
 
-			new_i = round(i * cos(ugao) - j * sin(ugao) - m * cos(ugao) + n * sin(ugao) + m);
-			new_j = round(j * cos(ugao) + i * sin(ugao) - m * sin(ugao) - n * cos(ugao) + n);
+			n = (i * cos(ugao) - j * sin(ugao) - m_rot * cos(ugao) + n_rot * sin(ugao) + m_rot);
+			m = (j * cos(ugao) + i * sin(ugao) - m_rot * sin(ugao) - n_rot * cos(ugao) + n_rot);
+	
+			double a = n - floor(n);
+			double b = m - floor(m);
+
+			n1 = n;
+			m1 = m;
+
+			if (m < ySize - 1)
+				m1++;
+
+			if (n < xSize - 1)
+				n1++;
+
 			
-			if (new_i < 0 || new_i >= xSize || new_j < 0 || new_j >= ySize)
+			if (n < 0 || n >= xSize || m < 0 || m >= ySize)
 				y_new[j * xSize + i] = 0;
 			
-			else if(new_i != floor(new_i) || new_j != floor(new_j))
+			else
 			{
-				int floor_i = floor(new_i);
-				int floor_j = floor(new_j);
-
-				double a = new_i - floor_i;
-				double b = new_j - floor_j;
-
 				y_new[j * xSize + i] =
-					(1 - a) * (1 - b) * y_old[floor_j * xSize + floor_i] +
-					(1 - a) * b * y_old[(floor_j + 1) * xSize + floor_i] +
-					a * (1 - b) * y_old[floor_j * xSize + (floor_i + 1)] +
-					a * b * y_old[(floor_j + 1) * xSize + (floor_i + 1)];
-				
+					(1 - a) * (1 - b) * y_old[m * xSize + n] +
+					(1 - a) * b * y_old[m1 * xSize + n] +
+					a * (1 - b) * y_old[m * xSize + n1] +
+					a * b * y_old[m1  * xSize + n1];
 
 			}
-			else 
-			{
-				y_new[j*xSize + i] = y_old[int(new_j*xSize + new_i)];
-				
-			}
+			
+			
 		}
 	}
 
@@ -331,42 +340,46 @@ void imageRotateBilinear(const uchar input[], int xSize, int ySize, uchar output
 	
 	for (int i = 0; i < xSize/2; i++) {
 		for (int j = 0; j < ySize/2; j++) {
+			int n;
+			int m;
+			int n1;
+			int m1;
 
-			double new_i, new_j;
+			n = (i * cos(ugao) - j * sin(ugao) - m_rot/2 * cos(ugao) + n_rot/2 * sin(ugao) + m_rot/2);
+			m = (j * cos(ugao) + i * sin(ugao) - m_rot/2 * sin(ugao) - n_rot/2 * cos(ugao) + n_rot/2);
 
-			new_i = (i * cos(ugao) - j * sin(ugao) - m/2 * cos(ugao) + n/2 * sin(ugao) + m/2);
-			new_j = (j * cos(ugao) + i * sin(ugao) - m/2 * sin(ugao) - n/2 * cos(ugao) + n/2);
+			double a = n - floor(n);
+			double b = m - floor(m);
 
-			if (new_i < 0 || new_i >= xSize / 2 || new_j < 0 || new_j >= ySize / 2)
+			n1 = n;
+			m1 = m;
+
+			if (m < ySize/2 - 1)
+				m1++;
+
+			if (n < xSize/2 - 1)
+				n1++;
+
+
+			if (n < 0 || n >= xSize / 2 || m < 0 || m >= ySize / 2)
 			{
 				u_new[j * xSize / 2 + i] = 0;
 				v_new[j * xSize / 2 + i] = 0;
 			}
-			else if (new_i != floor(new_i) || new_j != floor(new_j))
-			{
-				int floor_i = floor(new_i);
-				int floor_j = floor(new_j);
-
-				double a = new_i - floor_i;
-				double b = new_j - floor_j;
-
-				u_new[j * xSize/2 + i] =
-					(1 - a) * (1 - b) * u_old[floor_j * xSize/2 + floor_i] +
-					(1 - a) * b * u_old[(floor_j + 1) * xSize/2 + floor_i] +
-					a * (1 - b) * u_old[floor_j * xSize/2 + (floor_i + 1)] +
-					a * b * u_old[(floor_j + 1) * xSize/2 + (floor_i + 1)];
-
-				v_new[j * xSize/2 + i] =
-					(1 - a) * (1 - b) * v_old[floor_j * xSize/2 + floor_i] +
-					(1 - a) * b * v_old[(floor_j + 1) * xSize/2 + floor_i] +
-					a * (1 - b) * v_old[floor_j * xSize/2 + (floor_i + 1)] +
-					a * b * v_old[(floor_j + 1) * xSize/2 + (floor_i + 1)];
-			}
 			else
 			{
-				u_new[j*xSize/2 + i] = u_old[int(new_j*xSize/2 + new_i)];
-				v_new[j*xSize/2 + i] = v_old[int(new_j*xSize/2 + new_i)];
-			
+				u_new[j * xSize/2 + i] =
+					(1 - a) * (1 - b) * u_old[m * xSize/2 + n] +
+					(1 - a) * b * u_old[m1 * xSize/2 + n] +
+					a * (1 - b) * u_old[m * xSize/2 + n1] +
+					a * b * u_old[m1  * xSize/2 + n1];
+
+				v_new[j * xSize / 2 + i] =
+					(1 - a) * (1 - b) * v_old[m * xSize / 2 + n] +
+					(1 - a) * b * v_old[m1 * xSize / 2 + n] +
+					a * (1 - b) * v_old[m * xSize / 2 + n1] +
+					a * b * v_old[m1  * xSize / 2 + n1];
+
 			}
 		}
 	}

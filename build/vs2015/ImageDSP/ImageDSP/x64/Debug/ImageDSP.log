@@ -1,3 +1,6 @@
-﻿  ImageInterpolation.cpp
-  ImageDSP.vcxproj -> C:\materija\Ra20-2014\Interpolate-Me-Softly-Again\build\vs2015\ImageDSP\x64\Debug\ImageDSP.exe
-  ImageDSP.vcxproj -> C:\materija\Ra20-2014\Interpolate-Me-Softly-Again\build\vs2015\ImageDSP\x64\Debug\ImageDSP.pdb (Full PDB)
+﻿  ImageFIlter.cpp
+  ImageInterpolation.cpp
+  NoiseReduction.cpp
+  Generating Code...
+  ImageDSP.vcxproj -> C:\Users\Milan\Desktop\FAX\DSP2\Interpolate-Me-Softly-Again\build\vs2015\ImageDSP\x64\Debug\ImageDSP.exe
+  ImageDSP.vcxproj -> C:\Users\Milan\Desktop\FAX\DSP2\Interpolate-Me-Softly-Again\build\vs2015\ImageDSP\x64\Debug\ImageDSP.pdb (Full PDB)
