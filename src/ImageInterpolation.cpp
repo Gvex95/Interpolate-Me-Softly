@@ -230,7 +230,7 @@ void imageRotate(const uchar input[], int xSize, int ySize, uchar output[], int 
 		for (int j = 0; j < ySize; j++) {
 
 			int new_i, new_j;
-		
+		//skinuti kast
 			new_i = (int) (i * cos(ugao) - j * sin(ugao) - m * cos(ugao) + n * sin(ugao) + m);
 			new_j = (int) (j * cos(ugao) + i * sin(ugao) - m * sin(ugao) - n * cos(ugao) + n);
 
